@@ -6,9 +6,12 @@ function PlacesList({ places }) {
     <>
       {places && places.length !== 0 ? (
         <FlatList
+          style={styles.list}
           data={places}
-          renderItem={(place) => <PlaceItem place={place} />}
-          keyExtractor={({ place }) => place.id}
+          renderItem={({ index, item }) => (
+            <PlaceItem place={item} index={index} />
+          )}
+          keyExtractor={(place) => place.id}
         />
       ) : (
         <View style={styles.fallBackContainer}>
@@ -22,6 +25,7 @@ function PlacesList({ places }) {
 export default PlacesList;
 
 const styles = StyleSheet.create({
+  list: { margin: 20 },
   fallBackContainer: {
     flex: 1,
     justifyContent: "center",
