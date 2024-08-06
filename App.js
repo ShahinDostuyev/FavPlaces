@@ -6,9 +6,24 @@ import AddPlace from "./screens/AddPlace";
 import IconButton from "./components/UI/IconButton";
 import { colors } from "./constants/colors";
 import Map from "./screens/Map";
+import { useEffect } from "react";
+import { init } from "./util/database";
+import * as SplashScreen from "expo-splash-screen";
 
 const Stack = createNativeStackNavigator();
+SplashScreen.preventAutoHideAsync();
+
 export default function App() {
+  useEffect(() => {
+    init()
+      .then(async () => {
+        await SplashScreen.hideAsync();
+      })
+      .catch((error) =>
+        console.log("Database creation failed with error: ", error)
+      );
+  }, []);
+
   return (
     <>
       <StatusBar style="dark" />
