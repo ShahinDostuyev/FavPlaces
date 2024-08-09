@@ -3,7 +3,6 @@ import * as SQLite from "expo-sqlite";
 const database = SQLite.openDatabaseSync("places.db");
 
 export async function init() {
-
   const promise = await database.execAsync(
     `CREATE TABLE IF NOT EXISTS places (
             id INTEGER PRIMARY KEY NOT NULL,
@@ -19,7 +18,6 @@ export async function init() {
 }
 
 export async function insertPlace(place) {
-
   const promise = await database.runAsync(
     `INSERT INTO places (title, imageUri, address, lat, lng) VALUES (?, ?, ?, ?, ?)`,
     [
@@ -35,8 +33,16 @@ export async function insertPlace(place) {
 }
 
 export async function fetchPlaces() {
-  
   const promise = await database.getAllAsync("SELECT * FROM places");
+
+  return promise;
+}
+
+export async function fetchPlaceDetails(id) {
+  const promise = await database.getFirstAsync(
+    "SELECT * FROM places WHERE id=?",
+    [id]
+  );
 
   return promise;
 }
